@@ -14,7 +14,7 @@ const create_perfume = async (req, res) => {
     if (!title || !description || !image || !category || !label || !price) {
       res.status(404).json({ err: "All input fields should be filled!" });
     }
-    if (title || description || image || category || price) {
+    if (title || description || image || category || price || label) {
       const savedPerfumes = await Perfumes.save();
       res.status(200).json(savedPerfumes);
     }

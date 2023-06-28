@@ -18,7 +18,7 @@ router.get("/allPerfumes", findAll_perfumes);
 
 router.get("/singlePerfume/:id", single_perfume);
 
-router.get("/:category", get_category);
+router.get("/category/:category", get_category);
 
 router.delete("/delete/:id", delete_perfume);
 

@@ -25,13 +25,12 @@ const perfumeSchema = new Schema({
   price: {
     type: Number,
     required: true,
-    get: formatPrice,
   },
 });
 
-function formatPrice(price) {
-  return price.toLocaleString();
-}
+perfumeSchema.virtual("formattedPrice").get(function () {
+  return this.price.toLocaleString();
+});
 
 const PERFUMES = mongoose.model("singlePerfume", perfumeSchema);
 

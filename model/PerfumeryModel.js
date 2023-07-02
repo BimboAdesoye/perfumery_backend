@@ -23,10 +23,15 @@ const perfumeSchema = new Schema({
     required: true,
   },
   price: {
-    type: String,
+    type: Number,
     required: true,
+    get: formatPrice,
   },
 });
+
+function formatPrice(price) {
+  return price.toLocaleString();
+}
 
 const PERFUMES = mongoose.model("singlePerfume", perfumeSchema);
 

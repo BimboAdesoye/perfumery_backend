@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const perfumeryRouters = require("./router/PerfumeryRouter");
+const userRoute = require("./router/userRoute");
 const port = process.env.PORT || 2020;
 
 require("dotenv").config();
@@ -23,6 +24,8 @@ mongoose
 app.get("/", (req, res) => {
   res.send("Hello, again");
 });
+
+app.use("/auth", userRoute);
 
 app.use("/perfumes", perfumeryRouters);
 

@@ -1,5 +1,6 @@
 const userModel = require("../model/UserModel");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const register_controller = async (req, res) => {
   const { email, firstname, lastname, password, passwordVerify } = req.body;
@@ -48,7 +49,23 @@ const register_controller = async (req, res) => {
     });
 
     const savedUser = await newUser.save();
-    res.status(200).json(savedUser);
+    // res.status(201).json(savedUser);
+    // token
+    const token = jwt.sign(
+      {
+        user: savedUser._id,
+      },
+      process.env.JWT_SECRETE
+    );
+    console.log(token);
+    console.log("Registered succesfully");
+
+    // saving token in cookie
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .send();
   } catch (error) {
     console.log(error);
     res.status(500).send();

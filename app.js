@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const perfumeryRouters = require("./router/PerfumeryRouter");
 const userRoute = require("./router/userRoute");
+const orderRoute = require("./router/OrderRoute");
 const port = process.env.PORT || 2020;
 
 require("dotenv").config();
@@ -28,6 +29,8 @@ app.get("/", (req, res) => {
 app.use("/auth", userRoute);
 
 app.use("/perfumes", perfumeryRouters);
+
+app.use("/order", orderRoute);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

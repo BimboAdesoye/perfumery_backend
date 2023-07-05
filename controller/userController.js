@@ -72,6 +72,66 @@ const register_controller = async (req, res) => {
   }
 };
 
+// Login controller
+
+const login_controller = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    if (!email || !password) {
+      res
+        .status(400)
+        .json({ status: "false", errMsg: "Please enter all required fields" });
+      return;
+    }
+
+    const existingUser = await userModel.findOne({ email });
+    if (!existingUser) {
+      return res.status(400).json({
+        status: "false",
+        errMsg: "Wrong credentials",
+      });
+    }
+
+    // Comparing Password
+    const passwordCorrect = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
+    if (!passwordCorrect) {
+      return res
+        .status(400)
+        .json({ status: "false", errMsg: "wrong credentials" });
+    }
+
+    // token
+    const token = jwt.sign(
+      {
+        user: existingUser._id,
+      },
+      process.env.JWT_SECRETE
+    );
+    console.log("Logged in");
+
+    // getting token from cookie
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .send();
+  } catch (error) {
+    console.log(error);
+    res.status(500).send();
+  }
+};
+
+// Logout controller
+const logout_controller = async (req, res) => {
+  res.cookie("token", "", { httpOnly: true, expires: new Date(0) }).send();
+  console.log("Logged out");
+};
+
 module.exports = {
   register_controller,
+  login_controller,
+  logout_controller,
 };

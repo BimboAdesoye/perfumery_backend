@@ -130,8 +130,25 @@ const logout_controller = async (req, res) => {
   console.log("Logged out");
 };
 
+// Logged In
+const loggedIn_controller = (req, res) => {
+  try {
+    // console.log(req.cookies);
+    const token = req.cookies.token;
+    if (!token) {
+      return res.json(false);
+    }
+    jwt.verify(token, process.env.JWT_SECRETE);
+    res.json(true);
+  } catch (error) {
+    console.log(error);
+    res.json(false);
+  }
+};
+
 module.exports = {
   register_controller,
   login_controller,
   logout_controller,
+  loggedIn_controller,
 };

@@ -18,7 +18,7 @@ let db_url = process.env.DBURL;
 
 mongoose
   .connect(db_url)
-  .then(() => {
+  .then(() => { 
     console.log("Database connected successfully");
   })
   .catch((err) => {

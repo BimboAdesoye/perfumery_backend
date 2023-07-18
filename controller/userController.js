@@ -61,11 +61,12 @@ const register_controller = async (req, res) => {
     console.log("Registered succesfully");
 
     // saving token in cookie
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-      })
-      .send();
+    // res
+    //   .cookie("token", token, {
+    //     httpOnly: true,
+    //   })
+    //   .send();
+    res.json({ token });
   } catch (error) {
     console.log(error);
     res.status(500).send();
@@ -73,7 +74,6 @@ const register_controller = async (req, res) => {
 };
 
 // Login controller
-
 const login_controller = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -113,11 +113,12 @@ const login_controller = async (req, res) => {
     console.log("Logged in");
 
     // getting token from cookie
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-      })
-      .send();
+    // res
+    //   .cookie("token", token, {
+    //     httpOnly: true,
+    //   })
+    //   .send();
+    res.status(200).json({ token });
   } catch (error) {
     console.log(error);
     res.status(500).send();
@@ -126,15 +127,18 @@ const login_controller = async (req, res) => {
 
 // Logout controller
 const logout_controller = async (req, res) => {
-  res.cookie("token", "", { httpOnly: true, expires: new Date(0) }).send();
-  console.log("Logged out");
+  // res.cookie("token", "", { httpOnly: true, expires: new Date(0) }).send();
+  // console.log("Logged out");
+  res.json({ token: "" });
 };
 
 // Logged In
 const loggedIn_controller = (req, res) => {
   try {
     // console.log(req.cookies);
-    const token = req.cookies.token;
+    // const token = req.cookies.token;
+    const token = req.headers.authorization;
+    console.log(token);
     if (!token) {
       return res.json(false);
     }

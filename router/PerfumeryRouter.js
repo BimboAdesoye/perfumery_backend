@@ -8,6 +8,7 @@ const {
   single_perfume,
   get_category,
   delete_perfume,
+  limit_perfume
 } = require("../controller/PerfumeryController");
 
 router.post("/create", create_perfume);
@@ -21,5 +22,7 @@ router.get("/singlePerfume/:id", single_perfume);
 router.get("/category/:category", get_category);
 
 router.delete("/delete/:id", delete_perfume);
+
+// router.get("/category/:category")
 
 module.exports = router;

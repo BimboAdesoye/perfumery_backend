@@ -70,6 +70,20 @@ const delete_perfume = async (req, res) => {
   }
 };
 
+const limit_perfume = async (req, res) => {
+  const category = req.query.category;
+  const limit = parseInt(req.query.limit) || 10;
+  try {
+    const limitedProducts = await PERFUMES.find({ category: category })
+      .limit(limit)
+      .toArray();
+    res.json(limitedProducts);
+  } catch (error) {
+    console.log(error.message);
+    res.status(404).json({ message: error.message });
+  }
+};
+
 module.exports = {
   create_perfume,
   update_perfume,
@@ -77,4 +91,5 @@ module.exports = {
   single_perfume,
   get_category,
   delete_perfume,
+  limit_perfume,
 };

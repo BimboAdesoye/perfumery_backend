@@ -49,8 +49,6 @@ const register_controller = async (req, res) => {
     });
 
     const savedUser = await newUser.save();
-    // res.status(201).json(savedUser);
-    // token
     const token = jwt.sign(
       {
         user: savedUser._id,
@@ -59,13 +57,6 @@ const register_controller = async (req, res) => {
     );
     console.log(token);
     console.log("Registered succesfully");
-
-    // saving token in cookie
-    // res
-    //   .cookie("token", token, {
-    //     httpOnly: true,
-    //   })
-    //   .send();
     res.json({ token });
   } catch (error) {
     console.log(error);
@@ -111,13 +102,6 @@ const login_controller = async (req, res) => {
       process.env.JWT_SECRETE
     );
     console.log("Logged in");
-
-    // getting token from cookie
-    // res
-    //   .cookie("token", token, {
-    //     httpOnly: true,
-    //   })
-    //   .send();
     res.status(200).json({ token });
   } catch (error) {
     console.log(error);
@@ -127,16 +111,12 @@ const login_controller = async (req, res) => {
 
 // Logout controller
 const logout_controller = async (req, res) => {
-  // res.cookie("token", "", { httpOnly: true, expires: new Date(0) }).send();
-  // console.log("Logged out");
   res.json({ token: "" });
 };
 
 // Logged In
 const loggedIn_controller = (req, res) => {
   try {
-    // console.log(req.cookies);
-    // const token = req.cookies.token;
     const token = req.headers.authorization;
     console.log(token);
     if (!token) {
